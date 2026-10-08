@@ -1,0 +1,3 @@
+IN 00H
+OUT 01H
+HLT
