@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatic Water Tank Level Indicator - 8085</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#071729;color:#edf6ff}
+header{padding:24px 7%;background:#102b49;border-bottom:1px solid #245276}
+header h1{margin:0;font-size:25px}
+header p{color:#a7c9e6}
+main{max-width:1000px;margin:28px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.card{background:#10243c;border:1px solid #285071;border-radius:16px;padding:22px;margin-bottom:18px}
+button{border:0;border-radius:9px;padding:12px 17px;margin:5px 3px;cursor:pointer;background:#244765;color:#fff;font-weight:bold}
+button.active{background:#168ce3}
+.tank{height:270px;width:150px;border:5px solid #9ec8e8;border-top:0;border-radius:0 0 22px 22px;margin:25px auto 15px;position:relative;overflow:hidden;background:#0a1b2c}
+.water{position:absolute;bottom:0;width:100%;height:0%;background:linear-gradient(#36c5ff,#0876d4);transition:height .5s}
+.water:before{content:"";position:absolute;top:0;left:-10%;width:120%;height:10px;border-radius:50%;background:#8be4ff}
+.status{font-size:25px;font-weight:bold;text-align:center;margin:12px}
+.level{text-align:center;color:#a8cce9}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:center;padding:12px;border-bottom:1px solid #285071}
+th{color:#83d3ff}
+.note{font-size:14px;color:#aac1d9;line-height:1.6}
+footer{text-align:center;color:#90aecb;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>💧 Automatic Water Tank Level Indicator</h1>
+<p>8085 Microprocessor Project | Interactive Level Simulator</p>
+</header>
+<main>
+<div class="grid">
+<section class="card">
+<h2>Tank Level Control</h2>
+<p>Select a level to simulate the input port.</p>
+<button id="lowBtn" class="active" onclick="setLevel(0)">Low</button>
+<button id="medBtn" onclick="setLevel(1)">Medium</button>
+<button id="fullBtn" onclick="setLevel(2)">Full</button>
+<div class="tank"><div id="water" class="water"></div></div>
+<div id="status" class="status">LOW LEVEL</div>
+<div id="description" class="level">Input: 00H | Output: 00H</div>
+</section>
+<section class="card">
+<h2>8085 Input / Output</h2>
+<p><strong>Input Port:</strong> <span id="input">00H</span></p>
+<p><strong>Output Port:</strong> <span id="output">00H</span></p>
+<p><strong>Water Level:</strong> <span id="levelName">Low</span></p>
+<p><strong>Indicator:</strong> <span id="indicator">LOW</span></p>
+<hr style="border-color:#285071">
+<p class="note">This interactive page demonstrates the same input/output mapping used in the 8085 assembly simulation.</p>
+</section>
+</div>
+<section class="card">
+<h2>Input / Output Table</h2>
+<table>
+<thead><tr><th>Input (00H)</th><th>Output (01H)</th><th>Water Level</th></tr></thead>
+<tbody>
+<tr><td>00H</td><td>00H</td><td>Low</td></tr>
+<tr><td>01H</td><td>01H</td><td>Medium</td></tr>
+<tr><td>02H</td><td>02H</td><td>Full</td></tr>
+</tbody>
+</table>
+</section>
+<section class="card">
+<h2>Project Information</h2>
+<p><strong>Name:</strong> Ruqsaar Shaikh</p>
+<p><strong>Roll No.:</strong> 18049</p>
+<p><strong>Software:</strong> GNUsim8085</p>
+<p><strong>Assembly Instructions:</strong> IN 00H, OUT 01H, HLT</p>
+<p class="note">The physical water level is not measured by this website. This is a UI demonstration of the project's simulated input and output states.</p>
+</section>
+</main>
+<footer>Automatic Water Tank Level Indicator | 8085 Academic Project</footer>
+<script>
+const levels=[
+ {name:"LOW LEVEL",short:"Low",input:"00H",output:"00H",height:"22%",indicator:"LOW"},
+ {name:"MEDIUM LEVEL",short:"Medium",input:"01H",output:"01H",height:"55%",indicator:"MEDIUM"},
+ {name:"TANK FULL",short:"Full",input:"02H",output:"02H",height:"92%",indicator:"FULL"}
+];
+function setLevel(n){
+ const x=levels[n];
+ document.getElementById("water").style.height=x.height;
+ document.getElementById("status").textContent=x.name;
+ document.getElementById("description").textContent="Input: "+x.input+" | Output: "+x.output;
+ document.getElementById("input").textContent=x.input;
+ document.getElementById("output").textContent=x.output;
+ document.getElementById("levelName").textContent=x.short;
+ document.getElementById("indicator").textContent=x.indicator;
+ ["lowBtn","medBtn","fullBtn"].forEach((id,i)=>document.getElementById(id).classList.toggle("active",i===n));
+}
+setLevel(0);
+</script>
+</body>
+</html>
